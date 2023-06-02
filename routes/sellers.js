@@ -6,18 +6,18 @@ const Validator = require('fastest-validator');
 
 const validator = new Validator()
 
-const {Products} = require('../models');
+const {Sellers} = require('../models');
 
-/* GET users listing. */
+/* GET sellers listing. */
 router.get('/', function(req, res, next) {
-    const products = Products.findAll();
-    return res.json(products);
+    const sellers = Sellers.findAll();
+    return res.json(sellers);
 });
 
 router.get('/:id', function(req, res, next) {
     const id = req.params.id;
-    const product = Products.findbByPk(id);
-    return res.json(product || {});
+    const sellers = Sellers.findbByPk(id);
+    return res.json(sellers || {});
 });
 
 router.post('/', function(req, res, next) {
@@ -31,18 +31,18 @@ router.post('/', function(req, res, next) {
     if(validate.length){
         return res.status(400).json(validate);
     }
-    res.send('Success Post Product');
-    const product = Products.create(req.body);
-    return res.json(product);
+    res.send('Success Post User');
+    const sellers = Sellers.create(req.body);
+    return res.json(sellers);
   });
 
 router.put('/:id', function(req, res, next) {
     const id  = req.params.id;
 
-    let product = Products.findBy(id);
+    let sellers = Sellers.findBy(id);
 
-    if(!product){
-        return res.json({message: 'Product not found'});
+    if(!sellers){
+        return res.json({message: 'User not found'});
 
     }
 
@@ -56,29 +56,25 @@ router.put('/:id', function(req, res, next) {
     if(validate.length){
         return res.status(400).json(validate);
     }
-    product = Products.update(req.body)
-
-    res.send('ok')
-
-    res.send('put product');
+    sellers = Sellers.update(req.body)
 });
   
 router.delete('/:id', function(req, res, next) {
     const id = req.params.id;
 
-    let product = Products.findBy(id);
+    let sellers = Sellers.findBy(id);
 
-    if(!product){
-        return res.json({message: 'Product not found'});
+    if(!sellers){
+        return res.json({message: 'User not found'});
 
     }
 
-    product.destroy();
+    sellers.destroy();
     res.json({
-        message: 'Product is deleted'
+        message: 'User is deleted'
     })
 
-    res.send('delete product');
+    res.send('Delete User');
 });
 
 module.exports = router;

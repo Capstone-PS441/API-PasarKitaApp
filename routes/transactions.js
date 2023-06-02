@@ -6,18 +6,18 @@ const Validator = require('fastest-validator');
 
 const validator = new Validator()
 
-const {Products} = require('../models');
+const {Transactions} = require('../models');
 
-/* GET users listing. */
+/* GET Transactions listing. */
 router.get('/', function(req, res, next) {
-    const products = Products.findAll();
-    return res.json(products);
+    const transactions = Transactions.findAll();
+    return res.json(Transactions);
 });
 
 router.get('/:id', function(req, res, next) {
     const id = req.params.id;
-    const product = Products.findbByPk(id);
-    return res.json(product || {});
+    const transactions = Transactions.findbByPk(id);
+    return res.json(transactions || {});
 });
 
 router.post('/', function(req, res, next) {
@@ -31,18 +31,18 @@ router.post('/', function(req, res, next) {
     if(validate.length){
         return res.status(400).json(validate);
     }
-    res.send('Success Post Product');
-    const product = Products.create(req.body);
-    return res.json(product);
+    res.send('Success Post User');
+    const Transactions = Transactions.create(req.body);
+    return res.json(Transactions);
   });
 
 router.put('/:id', function(req, res, next) {
     const id  = req.params.id;
 
-    let product = Products.findBy(id);
+    let transactions = Transactions.findBy(id);
 
-    if(!product){
-        return res.json({message: 'Product not found'});
+    if(!transactions){
+        return res.json({message: 'Transaction not found'});
 
     }
 
@@ -56,29 +56,25 @@ router.put('/:id', function(req, res, next) {
     if(validate.length){
         return res.status(400).json(validate);
     }
-    product = Products.update(req.body)
-
-    res.send('ok')
-
-    res.send('put product');
+    transactions = Transactions.update(req.body)
 });
   
 router.delete('/:id', function(req, res, next) {
     const id = req.params.id;
 
-    let product = Products.findBy(id);
+    let transactions = Transactions.findBy(id);
 
-    if(!product){
-        return res.json({message: 'Product not found'});
+    if(!Transactions){
+        return res.json({message: 'Transaction not found'});
 
     }
 
-    product.destroy();
+    transactions.destroy();
     res.json({
-        message: 'Product is deleted'
+        message: 'Transaction is deleted'
     })
 
-    res.send('delete product');
+    res.send('Delete Transaction');
 });
 
 module.exports = router;
