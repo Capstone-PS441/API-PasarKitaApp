@@ -6,21 +6,21 @@ const Validator = require('fastest-validator');
 
 const validator = new Validator()
 
-const {Transactions} = require('../models');
+const { Transactions } = require('../models');
 
 /* GET Transactions listing. */
-router.get('/', function(req, res, next) {
-    const transactions = Transactions.findAll();
-    return res.json(Transactions);
+router.get('/', async (req, res, next) =>  {
+    const transactions = await Transactions.findAll();
+    return res.status(200).json(transactions);
 });
 
-router.get('/:id', function(req, res, next) {
+router.get('/:id', async (req, res, next) =>  {
     const id = req.params.id;
-    const transactions = Transactions.findbByPk(id);
-    return res.json(transactions || {});
+    const transactions = await Transactions.findOne({where: {id:id}});
+    return res.status(200).json(transactions || {});
 });
 
-router.post('/', function(req, res, next) {
+router.post('/', async (req, res, next) =>  {
     const schema = { 
         name: 'string',
         price: 'integer',
@@ -32,17 +32,17 @@ router.post('/', function(req, res, next) {
         return res.status(400).json(validate);
     }
     res.send('Success Post User');
-    const Transactions = Transactions.create(req.body);
-    return res.json(Transactions);
+    const Transactions = await Transactions.create(req.body);
+    return res.status(201).json(Transactions);
   });
 
-router.put('/:id', function(req, res, next) {
-    const id  = req.params.id;
+router.put('/:id', async (req, res, next) =>  {
+    const id  = req.params.id; 
 
-    let transactions = Transactions.findBy(id);
+    let transactions = await Transactions.findOne({where: {id:id}});
 
     if(!transactions){
-        return res.json({message: 'Transaction not found'});
+        return res.status(404).json({message: 'Transaction not found'});
 
     }
 
@@ -56,21 +56,22 @@ router.put('/:id', function(req, res, next) {
     if(validate.length){
         return res.status(400).json(validate);
     }
-    transactions = Transactions.update(req.body)
+    transactions = await Transactions.update(req.body)
+    res.status(201).json(transactions)
 });
   
-router.delete('/:id', function(req, res, next) {
+router.delete('/:id', async (req, res, next) => {
     const id = req.params.id;
 
-    let transactions = Transactions.findBy(id);
+    let transactions = await Transactions.findOne({where: {id:id}});
 
     if(!Transactions){
-        return res.json({message: 'Transaction not found'});
+        return res.status(404).json({message: 'Transaction not found'});
 
     }
 
-    transactions.destroy();
-    res.json({
+    await transactions.destroy({where: {id:id}});
+    res.status(200).json({
         message: 'Transaction is deleted'
     })
 

@@ -9,18 +9,18 @@ const validator = new Validator()
 const {Sellers} = require('../models');
 
 /* GET sellers listing. */
-router.get('/', function(req, res, next) {
-    const sellers = Sellers.findAll();
-    return res.json(sellers);
+router.get('/', async (req, res, next) => {
+    const sellers = await Sellers.findAll();
+    return res.status(200).json(sellers);
 });
 
-router.get('/:id', function(req, res, next) {
+router.get('/:id', async (req, res, next) => {
     const id = req.params.id;
-    const sellers = Sellers.findbByPk(id);
-    return res.json(sellers || {});
+    const sellers = await Sellers.findOne({where: {id:id}});
+    return res.status(200).json(sellers || {});
 });
 
-router.post('/', function(req, res, next) {
+router.post('/', async (req, res, next) => {
     const schema = { 
         name: 'string',
         price: 'integer',
@@ -32,14 +32,14 @@ router.post('/', function(req, res, next) {
         return res.status(400).json(validate);
     }
     res.send('Success Post User');
-    const sellers = Sellers.create(req.body);
-    return res.json(sellers);
+    const sellers = await Sellers.create(req.body);
+    return res.status(201).json(sellers);
   });
 
-router.put('/:id', function(req, res, next) {
+router.put('/:id', async (req, res, next) => {
     const id  = req.params.id;
 
-    let sellers = Sellers.findBy(id);
+    let sellers = await Sellers.findOne({where: {id:id}});
 
     if(!sellers){
         return res.json({message: 'User not found'});
@@ -56,25 +56,26 @@ router.put('/:id', function(req, res, next) {
     if(validate.length){
         return res.status(400).json(validate);
     }
-    sellers = Sellers.update(req.body)
+    sellers = await Sellers.update(req.body)
+    res.status(201).json(sellers)
 });
   
-router.delete('/:id', function(req, res, next) {
+router.delete('/:id', async (req, res, next) =>  {
     const id = req.params.id;
 
-    let sellers = Sellers.findBy(id);
+    let sellers =  Sellers.findOne({where: {id:id}});
 
     if(!sellers){
-        return res.json({message: 'User not found'});
+        return res.json({message: 'Seller not found'});
 
     }
 
-    sellers.destroy();
+    await Sellers.destroy({where: {id:id}});
     res.json({
-        message: 'User is deleted'
+        message: 'Seller is deleted'
     })
 
-    res.send('Delete User');
+    res.send('Delete Seller');
 });
 
 module.exports = router;
