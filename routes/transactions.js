@@ -3,7 +3,7 @@ const { send } = require('express/lib/response');
 var router = express.Router();
 
 const Validator = require('fastest-validator');
-
+const { authJwt } = require("../middleware");
 const validator = new Validator()
 
 const { Transactions } = require('../models');

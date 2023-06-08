@@ -1,7 +1,7 @@
 var express = require('express');
 const { send } = require('express/lib/response');
 var router = express.Router();
-
+const { authJwt } = require("../middleware");
 const Validator = require('fastest-validator');
 
 const validator = new Validator()
