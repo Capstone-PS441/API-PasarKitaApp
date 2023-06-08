@@ -9,18 +9,24 @@ const validator = new Validator()
 const {Users} = require('../models');
 
 /* GET users listing. */
-router.get('/', function(req, res, next) {
+router.get('/',[
+    authJwt.verifyToken
+    ], function(req, res, next) {
     const users = Users.findAll();
     return res.json(users);
 });
 
-router.get('/:id', function(req, res, next) {
+router.get('/:id',[
+    authJwt.verifyToken
+    ], function(req, res, next) {
     const id = req.params.id;
-    const users = Products.findbByPk(id);
+    const users = Users.findbByPk(id);
     return res.json(users || {});
 });
 
-router.post('/', function(req, res, next) {
+router.post('/',[
+    authJwt.verifyToken
+    ], function(req, res, next) {
     const schema = { 
         name: 'string',
         price: 'integer',
@@ -36,7 +42,9 @@ router.post('/', function(req, res, next) {
     return res.json(users);
   });
 
-router.put('/:id', function(req, res, next) {
+router.put('/:id',[
+    authJwt.verifyToken
+    ], function(req, res, next) {
     const id  = req.params.id;
 
     let users = Users.findBy(id);
@@ -59,7 +67,9 @@ router.put('/:id', function(req, res, next) {
     users = Users.update(req.body)
 });
   
-router.delete('/:id', function(req, res, next) {
+router.delete('/:id',[
+    authJwt.verifyToken
+    ], function(req, res, next) {
     const id = req.params.id;
 
     let users = Users.findBy(id);

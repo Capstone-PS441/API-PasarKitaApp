@@ -9,18 +9,24 @@ const validator = new Validator()
 const { Transactions } = require('../models');
 
 /* GET Transactions listing. */
-router.get('/', async (req, res, next) =>  {
+router.get('/',[
+    authJwt.verifyToken
+    ], async (req, res, next) =>  {
     const transactions = await Transactions.findAll();
     return res.status(200).json(transactions);
 });
 
-router.get('/:id', async (req, res, next) =>  {
+router.get('/:id',[
+    authJwt.verifyToken
+    ], async (req, res, next) =>  {
     const id = req.params.id;
     const transactions = await Transactions.findOne({where: {id:id}});
     return res.status(200).json(transactions || {});
 });
 
-router.post('/', async (req, res, next) =>  {
+router.post('/',[
+    authJwt.verifyToken
+    ], async (req, res, next) =>  {
     const schema = { 
         name: 'string',
         price: 'integer',
@@ -36,7 +42,9 @@ router.post('/', async (req, res, next) =>  {
     return res.status(201).json(Transactions);
   });
 
-router.put('/:id', async (req, res, next) =>  {
+router.put('/:id',[
+    authJwt.verifyToken
+    ], async (req, res, next) =>  {
     const id  = req.params.id; 
 
     let transactions = await Transactions.findOne({where: {id:id}});
@@ -60,7 +68,9 @@ router.put('/:id', async (req, res, next) =>  {
     res.status(201).json(transactions)
 });
   
-router.delete('/:id', async (req, res, next) => {
+router.delete('/:id',[
+    authJwt.verifyToken
+    ], async (req, res, next) => {
     const id = req.params.id;
 
     let transactions = await Transactions.findOne({where: {id:id}});

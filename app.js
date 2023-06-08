@@ -15,6 +15,7 @@ var products = require('./routes/products');
 var users = require('./routes/users');
 var sellers = require('./routes/sellers');
 var transactions = require('./routes/transactions');
+var auth = require('./routes/auth');
 var app = express();
 
 app.use(cors(corsOptions))
@@ -25,9 +26,10 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/users', users);
-app.use('/transactions', transactions);
-app.use('/sellers', sellers);
-app.use('/products', products);
+app.use('/api/users', users);
+app.use('/api/transactions', transactions);
+app.use('/api/sellers', sellers);
+app.use('/api/products', products);
+app.use('/auth', auth);
 
 module.exports = app;

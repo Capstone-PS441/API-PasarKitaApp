@@ -1,7 +1,7 @@
 var express = require('express');
 const { send } = require('express/lib/response');
 var router = express.Router();
-
+const { authJwt } = require("../middleware");
 const Validator = require('fastest-validator');
 
 const validator = new Validator()
@@ -9,18 +9,24 @@ const validator = new Validator()
 const {Products} = require('../models');
 
 /* GET users listing. */
-router.get('/', async (req, res, next) => {
+router.get('/', [
+    authJwt.verifyToken
+    ], async (req, res, next) => {
     const products = await Products.findAll();
     return res.status(200).send({body: products});
 });
 
-router.get('/:id', async (req, res, next) => {
+router.get('/:id', [
+    authJwt.verifyToken
+    ], async (req, res, next) => {
     const id = req.params.id;
     const product = await Products.findOne({where: {id:id}});
     return res.status(201).json(product || {});
 });
 
-router.post('/', async (req, res, next) => {
+router.post('/', [
+    authJwt.verifyToken
+    ], async (req, res, next) => {
     const schema = { 
         name: 'string',
         price: 'integer',
@@ -36,7 +42,9 @@ router.post('/', async (req, res, next) => {
     return res.status(201).json({product});
   });
 
-router.put('/:id', async (req, res, next) => {
+router.put('/:id',[
+    authJwt.verifyToken
+    ], async (req, res, next) => {
     const id  = req.params.id;
 
     let product = await Products.findBy(id);
@@ -60,7 +68,9 @@ router.put('/:id', async (req, res, next) => {
     res.status(201).json(product)
 });
   
-router.delete('/:id', async (req, res, next) =>  {
+router.delete('/:id',[
+    authJwt.verifyToken
+    ], async (req, res, next) =>  {
     const id = req.params.id;
 
     let product = await Products.findOne({where: {id:id}});
