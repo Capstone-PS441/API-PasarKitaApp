@@ -20,15 +20,15 @@ module.exports = (sequelize, DataTypes) => {
       },
       age: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
       },
       location: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
       },
       phone_number: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
       },
       image: {
         type: DataTypes.STRING,

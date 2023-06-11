@@ -12,9 +12,6 @@ exports.signup = (req, res) => {
     username: req.body.username,
     email: req.body.email,
     password: bcrypt.hashSync(req.body.password, 8),
-    age: req.body.age,
-    location: req.body.age,
-    phone_number: req.body.phone_number,
   })
     .then(user => {
           res.send({ message: "User registered successfully!" });
@@ -47,7 +44,7 @@ exports.signin = (req, res) => {
         });
       }
 
-      var token = jwt.sign({ id: user.id }, config.secret, {
+      var token = jwt.sign({ id: user.username }, config.secret, {
         expiresIn: 86400 // 24 hours
       });
 
