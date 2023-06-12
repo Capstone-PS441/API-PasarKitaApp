@@ -11,22 +11,22 @@ const {Users} = require('../models');
 /* GET users listing. */
 router.get('/',[
     authJwt.verifyToken
-    ], function(req, res, next) {
-    const users = Users.findAll();
+    ], async (req, res, next) => {
+    const users = await Users.findAll();
     return res.json(users);
 });
 
 router.get('/:id',[
     authJwt.verifyToken
-    ], function(req, res, next) {
+    ], async (req, res, next) => {
     const id = req.params.id;
-    const users = Users.findbByPk(id);
+    const users = await Users.findbByPk(id);
     return res.json(users || {});
 });
 
 router.post('/',[
     authJwt.verifyToken
-    ], function(req, res, next) {
+    ], async (req, res, next) =>  {
     const schema = { 
         name: 'string',
         price: 'integer',
@@ -38,16 +38,16 @@ router.post('/',[
         return res.status(400).json(validate);
     }
     res.send('Success Post User');
-    const users = Users.create(req.body);
+    const users = await Users.create(req.body);
     return res.json(users);
   });
 
 router.put('/:id',[
     authJwt.verifyToken
-    ], function(req, res, next) {
+    ], async (req, res, next) => {
     const id  = req.params.id;
 
-    let users = Users.findBy(id);
+    let users = await Users.findBy(id);
 
     if(!users){
         return res.json({message: 'User not found'});
@@ -64,23 +64,24 @@ router.put('/:id',[
     if(validate.length){
         return res.status(400).json(validate);
     }
-    users = Users.update(req.body)
+    users = await Users.update(req.body)
+    return res.status(201).json(users);
 });
   
 router.delete('/:id',[
     authJwt.verifyToken
-    ], function(req, res, next) {
+    ], async (req, res, next) => {
     const id = req.params.id;
 
     let users = Users.findBy(id);
 
     if(!users){
-        return res.json({message: 'User not found'});
+        return res.status(404).json({message: 'User not found'});
 
     }
 
     users.destroy();
-    res.json({
+    res.status(200).json({
         message: 'User is deleted'
     })
 
