@@ -19,7 +19,7 @@ verifyToken = (req, res, next) => {
       });
     }
     req.userId = decoded.id;
-    req.end()
+    req.end
     next();
   });
 };

@@ -30,8 +30,8 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false,
           },
-          nama_toko: {
-            type: DataTypes.STRING,
+          toko: {
+            type: DataTypes.INTEGER,
             allowNull: false,
           },
           createdAt: {

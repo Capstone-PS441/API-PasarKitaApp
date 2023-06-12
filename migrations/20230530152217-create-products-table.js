@@ -34,8 +34,8 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      nama_toko: {
-        type: Sequelize.STRING,
+      toko: {
+        type: Sequelize.INTEGER,
         allowNull: false,
       },
       createdAt: {
