@@ -11,7 +11,7 @@ const {Products} = require('../models');
 /* GET users listing. */
 router.get('/', async (req, res, next) => {
     const products = await Products.findAll();
-    return res.status(200).send({body: products});
+    return res.status(200).send(products);
 });
 
 router.get('/:id', async (req, res, next) => {
