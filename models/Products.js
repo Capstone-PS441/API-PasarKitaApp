@@ -31,7 +31,7 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false,
           },
           toko: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.STRING,
             allowNull: false,
           },
           createdAt: {
@@ -46,5 +46,8 @@ module.exports = (sequelize, DataTypes) => {
     {
     tableName: 'products'           
     });
+    Products.associate = (models) => {
+      Products.belongsTo(models.Sellers, { as: 'Seller' }); // Define the association with the alias 'seller'
+    };
     return Products;
 }

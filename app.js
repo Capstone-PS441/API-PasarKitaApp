@@ -1,11 +1,11 @@
 'use strict';
 var express = require('express');
 const cors = require('cors');
+const db = require("./models");
 
 var corsOptions = {
     origin: 'https://localhost:3001',
 }
-
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');

@@ -16,7 +16,7 @@ router.get('/', async (req, res, next) => {
 
 router.get('/:id', async (req, res, next) => {
     const id = req.params.id;
-    const sellers = await Sellers.findOne({where: {id:id}});
+    const sellers = await Sellers.findOne({where: {id:id}, include: ["product"]});
     return res.status(200).json(sellers || {});
 });
 

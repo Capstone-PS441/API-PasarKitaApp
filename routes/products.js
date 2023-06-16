@@ -6,17 +6,17 @@ const Validator = require('fastest-validator');
 
 const validator = new Validator()
 
-const {Products} = require('../models');
+const {Products, Sellers} = require('../models');
 
 /* GET users listing. */
 router.get('/', async (req, res, next) => {
-    const products = await Products.findAll();
+    const products = await Products.findAll({include:{model: Sellers, as: "Seller"}});
     return res.status(200).send(products);
 });
 
 router.get('/:id', async (req, res, next) => {
     const id = req.params.id;
-    const product = await Products.findOne({where: {id:id}});
+    const product = await Products.findOne({where: {id:id}, include: [{model: Sellers, as: "seller"}]});
     return res.status(201).json(product || {});
 });
 
@@ -78,6 +78,19 @@ router.delete('/:id', async (req, res, next) =>  {
     })
 
     res.send('delete product');
+});
+
+
+router.get('/:category', async (req, res, next) => {
+    const category = req.params.category;
+    const product = await Products.findOne({where: {category:category}});
+    return res.status(200).json(product || {});
+});
+
+router.get('/:id_seller', async (req, res, next) => {
+    const id_seller = req.params.id_seller;
+    const product = await Products.findOne({where: {id_toko:id_seller}});
+    return res.status(200).json(product || {});
 });
 
 module.exports = router;
