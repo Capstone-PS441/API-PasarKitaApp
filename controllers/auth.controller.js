@@ -6,14 +6,14 @@ const config = require("../config/auth.config");
 var jwt = require("jsonwebtoken");
 var bcrypt = require("bcryptjs");
 
-const generateRandomNumber= (digits) => {
-  const min = Math.pow(10, digits - 1); // Minimum value based on number of digits
-  const max = Math.pow(10, digits) - 1; // Maximum value based on number of digits
+// const generateRandomNumber= (digits) => {
+//   const min = Math.pow(10, digits - 1); // Minimum value based on number of digits
+//   const max = Math.pow(10, digits) - 1; // Maximum value based on number of digits
 
-  const randomNumber = Math.floor(Math.random() * (max - min + 1)) + min;
+//   const randomNumber = Math.floor(Math.random() * (max - min + 1)) + min;
 
-  return randomNumber;
-}
+//   return randomNumber;
+// }
 exports.signup = (req, res) => {
   // Save User to Database
   Users.create({
