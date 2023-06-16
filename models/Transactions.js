@@ -10,25 +10,13 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.DATE,
         allowNull: false,
       },
-      Item_description: {
+      Deskripsi_barang: {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      year: {
-        type: DataTypes.INTEGER,
+      category: {
+        type: DataTypes.STRING,
         allowNull: false,
-      },
-      month: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-      },
-      day: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-      },
-      day_of_week: {
-        type: DataTypes.INTEGER,
-        allowNull: true,
       },
           createdAt: {
             type: DataTypes.DATE,
