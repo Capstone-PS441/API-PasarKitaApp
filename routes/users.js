@@ -3,10 +3,12 @@ const { send } = require('express/lib/response');
 var router = express.Router();
 const { authJwt } = require("../middleware");
 const Validator = require('fastest-validator');
-
+const controller = require("../controllers/auth.controller");
+const { verifySignUp } = require("../middleware");
 const validator = new Validator()
 
 const {Users} = require('../models');
+
 
 /* GET users listing. */
 router.get('/',[
@@ -25,22 +27,9 @@ router.get('/:id',[
 });
 
 router.post('/',[
-    authJwt.verifyToken
-    ], async (req, res, next) =>  {
-    const schema = { 
-        name: 'string',
-        price: 'integer',
-    }
-
-    const validate = validator.validate(req.body, schema);
-
-    if(validate.length){
-        return res.status(400).json(validate);
-    }
-    res.send('Success Post User');
-    const users = await Users.create(req.body);
-    return res.json(users);
-  });
+    authJwt.verifyToken, 
+        verifySignUp.checkDuplicateUsernameOrEmail 
+    ], controller.signup);
 
 router.put('/:id',[
     authJwt.verifyToken

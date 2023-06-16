@@ -16,7 +16,7 @@ router.get('/', async (req, res, next) => {
 
 router.get('/:id', async (req, res, next) => {
     const id = req.params.id;
-    const product = await Products.findOne({where: {id:id}, include: [{model: Sellers, as: "seller"}]});
+    const product = await Products.findOne({where: {id:id}, include: [{model: Sellers, as: "Seller"}]});
     return res.status(201).json(product || {});
 });
 
@@ -81,13 +81,13 @@ router.delete('/:id', async (req, res, next) =>  {
 });
 
 
-router.get('/:category', async (req, res, next) => {
+router.get('/category/:category', async (req, res, next) => {
     const category = req.params.category;
     const product = await Products.findOne({where: {category:category}});
     return res.status(200).json(product || {});
 });
 
-router.get('/:id_seller', async (req, res, next) => {
+router.get('/seller/:id_seller', async (req, res, next) => {
     const id_seller = req.params.id_seller;
     const product = await Products.findOne({where: {id_toko:id_seller}});
     return res.status(200).json(product || {});
